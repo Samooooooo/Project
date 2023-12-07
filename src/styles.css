@@ -1,0 +1,31 @@
+button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #919191;
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9);
+}
+
+button:hover {
+  background-color: #2980b9;
+  color: wheat;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.8);
+}
+
+button:active {
+  background-color: #1f6eb8;
+}
+li {
+  list-style: none;
+}
+body {
+  background-color: #c9c6c663;
+}

@@ -1,0 +1,11 @@
+.scroll-container {
+  height: calc(90vh - 150px);
+  overflow-y: auto;
+  padding: 0px;
+  border-top: solid gray;
+  border-radius: 4em;
+}
+li {
+  background-color: #ffffff;
+  border-radius: 1em;
+}

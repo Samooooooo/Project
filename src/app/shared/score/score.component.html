@@ -1,0 +1,139 @@
+<div
+  style="border: solid gray; border-radius: 6px; margin: 1em; padding-left: 1em"
+>
+  <h2 style="color: green">Correct: {{ scores.answersCounter }}</h2>
+  <h2 style="color: red">Wrong: {{ scores.wrong }}</h2>
+  <h2 style="color: rgb(32, 5, 107)">Skipped: {{ scores.skipped }}</h2>
+  <h2 style="color: rgb(214, 129, 0)">
+    Rest:
+    {{
+      questionsInTotal - scores.answersCounter - scores.wrong - scores.skipped
+    }}
+  </h2>
+</div>
+<h1>
+  Your Score is
+  <strong style="color: rgba(26, 70, 26, 0.651)">
+    {{ (scores.answersCounter * 100) / questionsInTotal | number: "1.2-2" }}
+  </strong>
+  from the total of {{ questionsInTotal }} questions
+</h1>
+<br />
+<h1>
+  Your Score is
+  <strong style="color: rgba(26, 70, 26, 0.651)">
+    {{
+      (scores.answersCounter * 100) / (scores.answersCounter + scores.wrong)
+        | number: "1.2-2"
+    }}
+  </strong>
+  from the questions you answered
+</h1>
+<br />
+<div>
+  <h2>Correct question:</h2>
+  <p>
+    Number of <strong style="color: green">Correct</strong> Answers:
+    {{ scores.answersCounter }}
+  </p>
+</div>
+<div>
+  <h2>Wrong Questions:</h2>
+  <p>Number of wrong Answers: {{ scores.wrong }}</p>
+  <div *ngIf="scores.wrongQuestions">
+    <p>Your <strong style="color: red">wrong</strong> answers:</p>
+    <ul>
+      <li
+        style="
+          margin-top: 1em;
+          border: 5px solid rgba(128, 128, 128, 0.573);
+          border-radius: 5px;
+          padding: 10px;
+          padding-bottom: 2em;
+          margin-bottom: 10px;
+          list-style: decimal-leading-zero;
+        "
+        *ngFor="let wq of scores.wrongQuestions"
+      >
+        <h3>
+          {{ wq.question }}
+        </h3>
+        <ul>
+          <li *ngFor="let o of wq.options">
+            <p>
+              {{ o }}
+            </p>
+          </li>
+        </ul>
+        <p *ngIf="!wq.selectedAnswer[1]">
+          Your Answer:
+          <strong style="color: red"> {{ wq.selectedAnswer[0] }} </strong>
+        </p>
+        <p *ngIf="wq.questionType === 'fill-in'">
+          Your Answer:
+          <strong style="color: red"> {{ wq.selectedAnswer }} </strong>
+        </p>
+        <div *ngIf="wq.selectedAnswer[1] && wq.questionType !== 'fill-in'">
+          <div>Your Answers:</div>
+          <strong style="color: red"> {{ wq.selectedAnswer[0] }} </strong>
+          <p>
+            <strong style="color: red"> {{ wq.selectedAnswer[1] }} </strong>
+          </p>
+          <p>
+            <strong style="color: red"> {{ wq.selectedAnswer[2] }} </strong>
+          </p>
+          <p>
+            <strong style="color: red"> {{ wq.selectedAnswer[3] }} </strong>
+          </p>
+          <p>
+            <strong style="color: red"> {{ wq.selectedAnswer[4] }} </strong>
+          </p>
+        </div>
+        <p><strong>Right Answer: </strong>{{ wq.correctAnswer }}</p>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div>
+  <h2>Skiped Questions:</h2>
+  <p>
+    Number of <strong style="color: rgb(32, 5, 107)">Skipped</strong> Answers:
+    {{ scores.skipped }}
+  </p>
+  <div>
+    <ul>
+      <li
+        style="
+          margin-top: 1em;
+          border: 5px solid rgba(128, 128, 128, 0.573);
+          border-radius: 5px;
+          padding: 10px;
+          padding-bottom: 2em;
+          margin-bottom: 10px;
+          list-style: decimal-leading-zero;
+        "
+        *ngFor="let wq of scores.skipedQuestions"
+      >
+        <h3>
+          {{ wq.question }}
+        </h3>
+        <ul>
+          <li *ngFor="let o of wq.options">
+            <p>
+              {{ o }}
+            </p>
+          </li>
+        </ul>
+        <p><strong>Right Answer: </strong>{{ wq.correctAnswer }}</p>
+      </li>
+    </ul>
+  </div>
+</div>
+<div>
+  <h2>Rest questions:</h2>
+  <p>
+    Number of the <strong style="color: rgb(214, 129, 0)">Rest</strong> Answers:
+    {{ 120 - scores.answersCounter - scores.skipped - scores.wrong }}
+  </p>
+</div>

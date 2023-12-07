@@ -1,0 +1,45 @@
+<div *ngIf="question$ | async as q">
+  <body>
+    <div
+      class="listItem"
+      style="
+        margin-top: 1em;
+        border: 5px solid rgba(128, 128, 128, 0.573);
+        border-radius: 5px;
+        padding: 10px;
+        padding-bottom: 2em;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: flex-start;
+        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9);
+      "
+    >
+      <div style="flex: 1">
+        <h3>{{ q.question }}</h3>
+        <ul>
+          <li *ngFor="let o of q.options">
+            <p>{{ o }}</p>
+          </li>
+        </ul>
+        <div style="height: 3em">
+          <button (click)="showAnswer(q)">Show Answer</button>
+          <button style="margin-left: 1em" (click)="showNextQuestion(q)">
+            Next Question
+          </button>
+          <button style="margin-left: 1em" (click)="showPreviosQuestion(q)">
+            Previos Question
+          </button>
+          <div *ngIf="lastQswitch" style="color: rgb(8, 8, 8)">
+            <h6>{{ lastQError }}</h6>
+          </div>
+          <p *ngIf="q.showAnswer">
+            <strong>Answer: </strong>{{ q.correctAnswer }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+  <br />
+  <br />
+</div>
+<button routerLink="..">Back</button>

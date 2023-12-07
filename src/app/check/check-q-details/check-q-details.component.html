@@ -1,0 +1,112 @@
+<div *ngIf="question$ | async as q">
+  <div
+    class="WBackG"
+    style="
+      margin-top: 1em;
+      border: 5px solid rgba(128, 128, 128, 0.573);
+      border-radius: 5px;
+      padding: 10px;
+      padding-bottom: 2em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: flex-start;
+      box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9);
+    "
+  >
+    <div class="WBackG">
+      <h3>{{ q.question }}</h3>
+      <div>
+        <ul>
+          <li *ngFor="let o of q.options">
+            <ng-container *ngIf="q.questionType === 'single-choice'">
+              <label>
+                <input
+                  type="radio"
+                  name="answer"
+                  (change)="selectedAnswer = [o]"
+                />
+                {{ o }}
+              </label>
+            </ng-container>
+            <ng-container *ngIf="q.questionType === 'multiple-choice'">
+              <label>
+                <input
+                  type="checkbox"
+                  name="answer"
+                  (change)="packInArray(o)"
+                />
+                {{ o }}
+              </label>
+            </ng-container>
+          </li>
+          <ng-container *ngIf="q.questionType === 'fill-in'">
+            <li>
+              <input type="text" #inputAnswer />
+              <button
+                style="margin-left: 1em"
+                (click)="checkAnswerAndNavigate(q, inputAnswer.value)"
+                [disabled]="countDownBo"
+                [disabled]="noOptionSwitch"
+                [disabled]="lastQswitch"
+              >
+                Next Question
+              </button>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+      <div style="height: 3em">
+        <button
+          *ngIf="q.questionType !== 'fill-in'"
+          style="margin-left: 1em"
+          (click)="checkAnswerAndNavigate(q, selectedAnswer)"
+          [disabled]="countDownBo"
+          [disabled]="noOptionSwitch"
+          [disabled]="lastQswitch"
+        >
+          Next Question
+        </button>
+        <button
+          style="margin-left: 1em; margin-top: 10px"
+          (click)="showPreviosQuestion(q)"
+          [disabled]="countDownBo"
+          [disabled]="noOptionSwitch"
+          [disabled]="lastQswitch"
+        >
+          Previous Question
+        </button>
+        <button
+          style="margin-left: 1em; margin-top: 10px"
+          (click)="skipQuestion(q, selectedAnswer)"
+          [disabled]="countDownBo"
+          [disabled]="noOptionSwitch"
+          [disabled]="lastQswitch"
+        >
+          Skip
+        </button>
+        <div style="display: inline-flexbox">
+          <div *ngIf="lastQswitch" style="color: rgb(255, 0, 0)">
+            <h6>{{ lastQError }}</h6>
+          </div>
+          <div *ngIf="noOptionSwitch" style="color: rgb(253, 1, 1)">
+            <h6>{{ noOptionError }}</h6>
+          </div>
+        </div>
+        <p *ngIf="q.showAnswer">
+          <strong>Answer: </strong>{{ q.correctAnswer }}
+        </p>
+      </div>
+      <br />
+    </div>
+    <br />
+    <br />
+  </div>
+  <button routerLink="/">Back</button>
+  <button style="margin-left: 1em" routerLink="/scores">Score</button>
+</div>
+<div style="margin-top: 1em" *ngIf="countDown > 0">
+  <span style="color: red"
+    >Wrong Answer you will be redirected to the Previous Question in
+    <strong>{{ countDown }}</strong> seconds</span
+  >
+</div>
